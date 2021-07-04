@@ -1,14 +1,20 @@
-## Micronaut 2.5.7 Documentation
+# JQ web service container
 
-- [User Guide](https://docs.micronaut.io/2.5.7/guide/index.html)
-- [API Reference](https://docs.micronaut.io/2.5.7/api/index.html)
-- [Configuration Reference](https://docs.micronaut.io/2.5.7/guide/configurationreference.html)
-- [Micronaut Guides](https://guides.micronaut.io/index.html)
----
+The goal of this small Micronaut-based service is to use the 
+[jq-web](https://github.com/arakelian/java-jq) library to filter the output of
+JSON-based REST APIs to just return the subset we're interested in, using JQ filters.
 
-## Feature http-client documentation
+Once the application is running, with `./gradlew run`, you can make some test calls with curl:
 
-- [Micronaut HTTP Client documentation](https://docs.micronaut.io/latest/guide/index.html#httpClient)
+```
+curl -X POST 'localhost:8080/?filter=.text' -H "content-type: application/json" -d '{"text"="Il était un petit navire","number"=1234,"truth":true}' 
+```
+
+Or using [httpie](https://httpie.io/), with the command:
+
+```
+http "localhost:8080/?filter=.text" text='Il était un petit navire' number=1234 truth=true
+```
 
 ---
 This is not an official Google product.
