@@ -1,0 +1,49 @@
+plugins {
+    id("com.github.johnrengelman.shadow") version "7.0.0"
+    id("io.micronaut.application") version "1.5.3"
+}
+
+version = "0.1"
+group = "jqweb"
+
+repositories {
+    mavenCentral()
+}
+
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("jqweb.*")
+    }
+}
+
+dependencies {
+    implementation("io.micronaut:micronaut-http-client")
+    implementation("io.micronaut:micronaut-runtime")
+    implementation("javax.annotation:javax.annotation-api")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    implementation("io.micronaut:micronaut-validation")
+
+    implementation("com.arakelian:java-jq:1.1.0")
+    implementation("io.micronaut.gcp:micronaut-gcp-logging:3.5.0")
+    implementation("com.google.code.gson:gson:2.8.7")
+}
+
+
+application {
+    mainClass.set("jqweb.Application")
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("11")
+    targetCompatibility = JavaVersion.toVersion("11")
+}
+
+
+run {
+    jvmArgs = [ 
+        "-agentlib:native-image-agent=experimental-class-loader-support,config-output-dir=tmp", 
+        "-Dorg.graalvm.nativeimage.imagecode=agent" 
+    ]
+}
